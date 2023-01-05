@@ -1,0 +1,88 @@
+.nav-board ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    display: block;
+    height:70px;
+    background-color: rgb(243, 66, 101);
+  }
+  .result-box{
+    background: rgba(0,0,0,0.1);
+    width:20%;
+   border-radius:8px;
+  }
+  .nav-board li {
+    float: right;
+    margin-right: 50px;
+    margin-top: 20px;
+  }
+  
+  .nav-board li a {
+    font-size: 23px;
+    padding: 8px;
+    text-decoration: none;
+    color:rgba(25, 7, 72, 0.586);
+    font-weight: 500;
+  }
+    .container-block {
+      padding: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+    }
+    .myblock{
+      margin:60px auto auto auto;
+      display:block;
+    }
+    table {
+      display: grid;
+      border-collapse: collapse;
+      min-width: 100%;
+      grid-template-columns: 
+        minmax(100px, 170px)
+        minmax(100px, 300px)
+        minmax(100px, 270px);
+      background: rgba(244, 244, 244, 0.1);
+      box-shadow: 0 19px 38px rgba(178, 33, 33, 0.3);
+      border-radius:20px;
+    }
+    
+    thead,
+    tbody,
+    tr {
+      display: contents;
+    }
+    
+    th,
+    td {
+      padding: 15px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    
+    th {
+      position: sticky;
+      top: 0;
+      background: rgb(243, 66, 101);
+      text-align: left;
+      font-weight: normal;
+      font-size: 1.1rem;
+      color: white;
+    }
+    
+    th:last-child {
+      border: 0;
+    }
+    
+    td {
+      padding-top: 10px;
+      padding-bottom: 10px;
+      color: #808080;
+    }
+    
+    tr:nth-child(even) td {
+      background: #f8f6ff;
+    }
