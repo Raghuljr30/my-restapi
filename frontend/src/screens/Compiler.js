@@ -7,6 +7,8 @@ import { useEffect,useState } from 'react';
 import {render} from 'react-dom';
 import "./compiler.css";
 import { Link } from 'react-router-dom';
+// import { toast } from 'react-toastify';
+// import Alert from './Alert';
 import CompilerComponent from '../components/CompilerComponent';
 export default function Compiler()
 {
@@ -14,6 +16,17 @@ export default function Compiler()
     const[compile,setCompile]= useState([])
     const params=useParams()
     const id=params.id;
+    const [warnings, setWarnings] = useState(0);
+
+    function handleVisibilityChange() {
+      if (document.hidden) {
+        setWarnings((prevWarnings) => prevWarnings + 1);
+        alert(`You have been warned ${warnings} times. Do not leave this page!`);
+        if (warnings >= 3) {
+          window.location.replace('/');
+        }
+      }
+    }
     useEffect(()=>{
 
         const fetchData=async()=>{
@@ -34,10 +47,20 @@ export default function Compiler()
         // catch(err){
         //   console.log(err);
         // }
+
         
-      };
-      fetchData();
-    },[compile]);
+      };  fetchData();
+
+      window.myTimer();
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+    
+    },[compile],[warnings]);
+
+  
+
 
     
   return (
@@ -86,51 +109,28 @@ export default function Compiler()
         )}
         
 
-        {/* <div>
-          <diV class="quest-box">
-              <h5>Question 1</h5>
-              <p>Given a 0-indexed integer array nums of length n and an integer k, return the number of pairs (i, j) such that:
-                nums[i] * nums[j] is divisible by k.</p>
-          </diV>
-        </div>
-        <diV class="quest-box">
-          <div class="quest-content">
-            <h5>Sample Input 1</h5>
-            <div>
-              <p>nums = [1,2,3,4,5]
-                  k = 2</p>
-            </div>
-            <h5>Sample Output 1</h5>
-            <div>
-              <p>7 Pairs - (0, 1), (0, 3), (1, 2), (1, 3), (1, 4), (2, 3), and (3, 4)</p>
-            </div>
-          </div>
-        </diV>
-        <diV class="quest-box">
-          <div class="quest-content">
-            <h5>Sample Input 2</h5>
-            <div>
-              <p>nums = [1,2,3,4], k = 5
-              </p>
-            </div>
-            <h5>Sample Output 2</h5>
-            <div>
-              <p>0 There does not exist any pair of indices whose corresponding product is divisible by 5.</p>
-            </div>
-          </div>
-        </diV>
-        <diV class="quest-box">
-            <h5>Constraints:</h5>
-            <ul>
-              <li>1  nums.length  105</li>
-              <li>1  nums[i], k 105</li>
-            </ul>
-        </diV> */}
+      
+
+
       </div>
       <div class="column" >
         <center id="icon-time">
           <i class="fas fa-tachometer-alt" id="icon-space"></i>
-          <h id="head">5:00</h>
+          <div  class="mobile-container">
+              <div id="clockdiv">
+                <div className="inner-clock">
+                  <span className="hours" id="hour"></span>
+                  <h3 className="timer-para">:</h3>
+                </div>
+                <div className="inner-clock">
+                  <span className="minutes" id="minute"></span>
+                  <h3 className="timer-para">:</h3>
+                </div>
+                <div className="inner-clock">
+                  <span className="seconds" id="second"></span>
+                </div>
+              </div>
+            </div>
         </center>
         <div class="container" >
           <div class="wrap">
