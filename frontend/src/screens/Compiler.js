@@ -3,6 +3,8 @@ import { Navigate, renderMatches, useNavigate, useParams } from 'react-router-do
 // import Button from 'react-bootstrap/Button';
 // import Form from 'react-bootstrap/Form';
 import axios from 'axios'; 
+import Axios from 'axios';
+
 import { useEffect,useState } from 'react';
 import {render} from 'react-dom';
 import "./compiler.css";
@@ -10,6 +12,7 @@ import { Link } from 'react-router-dom';
 // import { toast } from 'react-toastify';
 // import Alert from './Alert';
 import CompilerComponent from '../components/CompilerComponent';
+import OutputComponent from '../components/OutputComponent';
 export default function Compiler()
 {
     const navigate= useNavigate();
@@ -17,7 +20,27 @@ export default function Compiler()
     const params=useParams()
     const id=params.id;
     const [warnings, setWarnings] = useState(0);
-
+    const [code,setCode]=useState([]);
+    const [output,setOutput]=useState([])
+    
+    const submitHandler=async(e)=>{
+        e.preventDefault();
+        try
+        {
+          const result=await Axios.post(`/api/users/output/${id}`,{
+            code,
+          })
+          setOutput(result.data);
+          console.log(result.data.output);
+        }
+        catch(err)
+        {
+            console.log(err);
+        }
+        
+      }
+      
+     
     function handleVisibilityChange() {
       if (document.hidden) {
         setWarnings((prevWarnings) => prevWarnings + 1);
@@ -57,7 +80,7 @@ export default function Compiler()
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
     
-    },[compile],[warnings]);
+    },[warnings]);
 
   
 
@@ -132,26 +155,40 @@ export default function Compiler()
               </div>
             </div>
         </center>
+        <form onSubmit={submitHandler}>
         <div class="container" >
           <div class="wrap">
-            <textarea spellcheck="false" placeholder="write your code here..."  required></textarea>
+            <textarea onChange={(e)=>setCode(e.target.value)} spellcheck="false" placeholder="write your code here..."  required></textarea>
           </div>
           
           </div>
           <div class="col">
             <div id="button">
-            <button class="btn btn-success">Run Code</button>
+            {/* <button class="btn btn-success">Run Code</button> */}
+            <button className="btn btn-success" type="submit">Run</button>
             <br />
             <button class="btn btn-success">Submit</button>
             <br />
             <pre id="ans"></pre>
             </div>
           </div>
-        </div>
+        {/* </div> */}
+        </form>
             
+            {output.map((q)=>{
+              return(
+                <OutputComponent
+                yourOutput={q.youroutput}
+                expectedOutput={q.expected}
+                
+                
+                />
+
+              )
+            })}
         </div>
       </div>
-    
+    </div>
     
     
     )
