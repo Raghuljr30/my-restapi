@@ -1,4 +1,3 @@
-
 import { useEffect,useState } from 'react';
 import { BrowserRouter,Route,Routes } from 'react-router-dom';
 import Home from "./screens/Home.js";
@@ -8,6 +7,7 @@ import axios  from 'axios';
 import Axios from 'axios';
 import Leaderboard from './screens/Leaderboard.js';
 import Result from './screens/Result.js';
+import Admin from './screens/Admin.js';
 import Compiler from './screens/Compiler.js';
 
 function App() {
@@ -62,6 +62,7 @@ function App() {
           <Route path="/home/:name/leaderboard" element={<Leaderboard/>}/>
           <Route path="/home/:name/result" element={<Result/>}/>
           <Route path="/compiler/:id" element={<Compiler/>}/>
+          <Route path="/admin" element={<Admin/>}/>
           <Route path='/' element={<Login/>}/>
       </Routes>
    
