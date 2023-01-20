@@ -16,10 +16,6 @@ userRouter.post('/signin', expressAsyncHandler(async(req,res)=>{
     return;
 }))
 
-userRouter.post('/output/:id',expressAsyncHandler(async(req,res)=>{
-    res.send(data.outputPublicFailed);
-    return;
-}))
 
 userRouter.post('/email', expressAsyncHandler(async(req,res)=>{
     res.send({
@@ -29,9 +25,17 @@ userRouter.post('/email', expressAsyncHandler(async(req,res)=>{
     return;
 }))
 
+userRouter.post('/output/:id',expressAsyncHandler(async(req,res)=>{
+    res.send(data.outputPublicFailed);
+    return;
+}))
 
 userRouter.get('/quest',async(req,res)=>{
     res.send(data.questions);
+})
+
+userRouter.get('/studentemail',async(req,res)=>{
+    res.send(data.studentEmail);
 })
 
 userRouter.get('/leaderboard',async(req,res)=>{
