@@ -126,6 +126,18 @@ const data={
         {
             totaltestcasePassed:"5/11",
         }
+    ],
+    
+     studentEmail:[
+        {
+            stud:"stud1@gmail.com",
+        },
+        {
+            stud:"stud2@gmail.com",
+        },
+        {
+            stud:"stud3@gmail.com",
+        },
     ]
 
 
