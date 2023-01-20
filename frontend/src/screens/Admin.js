@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import Axios from 'axios';
 import { useState } from 'react';
-import Quest from "./Quest";
+// import Quest from "./Quest";
 import axios from "axios";
 import "./home.css";
 import "./admin.css";
@@ -16,12 +16,20 @@ export default function Admin(){
 
 
     const [status,setStatus]=useState()
+    const[testName,settestName]=useState('');
+    const[startTime,setstartTime]=useState('');
+    const[endTime,setendTime]=useState('');
+    const[duration,setDuration]=useState('');
     const submitHandler=async(e)=>{
       e.preventDefault();
       try
       {
         const result=await Axios.post(`/api/users/email`,{
           selectedItems,
+          testName,
+          startTime,
+          endTime,
+          duration,
         })
         setStatus(result.data);
         console.log(result.data);
@@ -65,7 +73,32 @@ export default function Admin(){
     return(
         
       <form onSubmit={submitHandler}>
-            <div className="admin">
+        <div className="nav-admin">
+            <p className="admin-header">Admin Dashboard</p>
+        </div>
+        <div className="admin">
+            {/* <div class="admin-form"> */}
+                <form>
+                    <div className="form-group">
+                        <label className="admin-label">Test Name:</label>
+                        <input type="text" name="testName" className="admin-input" placeholder="Test name" required onChange={(e)=>settestName(e.target.value)} />
+                    </div>
+                    <div className="form-group">
+                        <label className="admin-label">Start Time:</label>
+                        <input type="datetime-local"className="admin-input" name="startTime" required onChange={(e)=>setstartTime(e.target.value)} />
+                    </div>
+                    <div className="form-group">
+                        <label className="admin-label">End Time:</label>
+                        <input type="datetime-local"className="admin-input" name="endTime" required onChange={(e)=>setendTime(e.target.value)}/>
+                    </div>
+                    <div className="form-group">
+                        <label className="admin-label">Duration:</label>
+                        <input type="time" className="admin-input" name="duration" placeholder="Duration (in minutes)" required onChange={(e)=>setDuration(e.target.value)} />
+                    </div>
+                        <div className="admin-innersearch">
+                            <input type="search" className="admin-search" placeholder="Search..."></input>
+                        </div>
+                </form>
       {/* {items.map(items => (
         <label key={items.s}>
           <input
@@ -90,17 +123,13 @@ export default function Admin(){
                     </label>    
                 </div>
             );
-            <br></br>
         }
-           
-           
-
         )}
-        
+        <button className="admin-btn" type="submit">Submit</button>
     </div>
-    <button className="btn btn-success" type="submit">Submit</button>
-    </form>
-    
-        
+    {/* </div> */}
+    </form>   
     )
 }
+
+
