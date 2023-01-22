@@ -1,3 +1,4 @@
+
 import React, { useEffect } from "react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import Axios from 'axios';
@@ -7,6 +8,7 @@ import axios from "axios";
 import "./home.css";
 import "./admin.css";
 import { Link } from "react-router-dom";
+import XLSX from 'xlsx';
 export default function Admin(){
 
     const params=useParams();
@@ -20,6 +22,8 @@ export default function Admin(){
     const[startTime,setstartTime]=useState('');
     const[endTime,setendTime]=useState('');
     const[duration,setDuration]=useState('');
+
+    const[jsonData,setjsonData]=useState('');
     const submitHandler=async(e)=>{
       e.preventDefault();
       try
@@ -30,6 +34,7 @@ export default function Admin(){
           startTime,
           endTime,
           duration,
+          jsonData
         })
         setStatus(result.data);
         console.log(result.data);
@@ -67,6 +72,23 @@ export default function Admin(){
     }
   };
 
+
+  const [fileName,setfileName]=useState(null);
+    const handleFile=async (e)=>{
+
+        console.log(e.target.files[0]);
+        const file=e.target.files[0];
+        setfileName(file.name)
+        const data=await file.arrayBuffer();
+        const workbook=XLSX.read(data);
+
+        const worksheet=workbook.Sheets[workbook.SheetNames[0]];    
+        const jsonData=XLSX.utils.sheet_to_json(worksheet);
+        setjsonData(jsonData);
+        console.log(jsonData);
+    };
+
+
   console.log(selectedItems);
     
 
@@ -94,6 +116,16 @@ export default function Admin(){
                     <div className="form-group">
                         <label className="admin-label">Duration:</label>
                         <input type="time" className="admin-input" name="duration" placeholder="Duration (in minutes)" required onChange={(e)=>setDuration(e.target.value)} />
+
+                        <div>
+                      <h1>FileUpload</h1>
+                      {fileName && (
+                    <p>fileName:<span>{fileName}</span></p>
+    )}
+    <input type="file" onChange={(e)=>handleFile(e)} />
+    {/* <button onClick={handleUpload}>Upload</button> */}
+  </div>
+
                     </div>
                         <div className="admin-innersearch">
                             <input type="search" className="admin-search" placeholder="Search..."></input>
@@ -131,5 +163,7 @@ export default function Admin(){
     </form>   
     )
 }
+
+
 
 
