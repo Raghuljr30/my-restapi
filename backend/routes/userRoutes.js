@@ -30,6 +30,9 @@ userRouter.post('/output/:id',expressAsyncHandler(async(req,res)=>{
     return;
 }))
 
+
+
+
 userRouter.get('/quest',async(req,res)=>{
     res.send(data.questions);
 })
@@ -45,6 +48,16 @@ userRouter.get('/leaderboard',async(req,res)=>{
 userRouter.get('/result',async(req,res)=>{
     res.send(data.results);
 })
+
+userRouter.get('/student',async(req,res)=>{
+    res.send(data.students);
+})
+
+userRouter.get('/questset',async(req,res)=>{
+    res.send(data.QuestionSet);
+})
+
+
 
 userRouter.get('/compile/:id',async(req,res)=>{
     //return the question that matches the respective questionId
