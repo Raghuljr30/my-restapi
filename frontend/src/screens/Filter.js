@@ -13,6 +13,9 @@ export default function Filter()
   const navigate=useNavigate();
   const[students,setStudents]=useState([]);
   const[questions,setQuestions]=useState([]);
+
+  const[selectedquestions,setSelectedquestions]=useState([]);
+  const[selectedstudents,setSelectedstudents]=useState([]);
     
   useEffect(()=>{
 
@@ -25,9 +28,9 @@ export default function Filter()
   fetchData();
 },[]);
 
-console.log(students);
+// console.log(students);
 
-const [constraints, setConstraints] = useState({college: "", department: ""});
+const [constraints, setConstraints] = useState({});
 
 const [levels, setLevels] = useState({level: ""});
 
@@ -45,8 +48,28 @@ const [levels, setLevels] = useState({level: ""});
             return Object.entries(levels).every(([key, value]) => question[key] === value)
         });
       }
-      console.log(filteredStudents);
-      console.log(filteredQuestions);
+
+
+      const handleChangeQuestions = (item) => {
+        if (selectedquestions.includes(item)) {
+          setSelectedquestions(selectedquestions.filter(i => i !== item));
+        } else {
+          setSelectedquestions([...selectedquestions, item]);
+        }
+      };
+
+
+      const handleChangeStudents = (item) => {
+        if (selectedstudents.includes(item)) {
+          setSelectedstudents(selectedstudents.filter(i => i !== item));
+        } else {
+          setSelectedstudents([...selectedstudents, item]);
+        }
+      };
+      // console.log(filteredStudents);
+      // console.log(filteredQuestions);
+      console.log(selectedquestions);
+      console.log(selectedstudents);
 
 
   return (
@@ -64,9 +87,27 @@ const [levels, setLevels] = useState({level: ""});
       <input value={constraints.regNumb} onChange={(e) => setConstraints({...constraints, regNumb: e.target.value})} />
     </div>
     <ul>
-      {filteredStudents.map(student => (
-        <li >{student.name}</li>
-      ))}
+      {filteredStudents.map(student => {
+        return(
+                   
+                   <label key={student.id}>
+                   <input 
+                   className="email-box" type="checkbox"
+                   checked={selectedstudents.includes(student)}
+                   onChange={() => handleChangeStudents(student)}
+                   // checked={
+                    
+                   //  selectedquestions.includes(q) ? 
+                   //  setSelectedquestions(selectedquestions.filter(i =>i !=q))
+                   //  : setSelectedquestions([...selectedquestions,q])
+                   
+                   // }
+                   />
+                   {student.regNumb}
+                   </label>    
+               
+           );
+      })}
     </ul>
 
 
@@ -75,9 +116,33 @@ const [levels, setLevels] = useState({level: ""});
       <input value={setQuestions.level} onChange={(e) => setLevels({...levels, level: e.target.value})} />
     </div>
     <ul>
-      {filteredQuestions.map(question=> (
+      {/* {filteredQuestions.map(question=> (
         <li >{question.questdesc}</li>
-      ))}
+      ))} */}
+
+      {filteredQuestions.map((q)=>{
+                {/* console.log(q); */}
+                return(
+                   
+                        <label key={q.qnum}>
+                        <input 
+                        className="email-box" type="checkbox"
+                        checked={selectedquestions.includes(q)}
+                        onChange={() => handleChangeQuestions(q)}
+                        // checked={
+                         
+                        //  selectedquestions.includes(q) ? 
+                        //  setSelectedquestions(selectedquestions.filter(i =>i !=q))
+                        //  : setSelectedquestions([...selectedquestions,q])
+                        
+                        // }
+                        />
+                        {q.questdesc}
+                        </label>    
+                    
+                );
+            }
+            )}
     </ul>
 
   </div>
